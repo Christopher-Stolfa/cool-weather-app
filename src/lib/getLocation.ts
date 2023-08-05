@@ -7,10 +7,10 @@ export async function getLocation(): Promise<{long: string, lat: string}> {
         navigator.geolocation.getCurrentPosition(resolve, reject);
     });
 
-    return {
+    return Promise.resolve({
         long: pos.coords.longitude,
         lat: pos.coords.latitude,
-    };
+    });
 
 }
 
