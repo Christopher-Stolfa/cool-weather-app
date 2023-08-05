@@ -3,7 +3,15 @@
     import welcome_fallback from "$lib/images/svelte-welcome.png";
     import { getLocation } from "$lib/getLocation";
 
-    getLocation();
+    async function getWindowLocation() {
+        if (typeof window !== "undefined") {
+            const loc = await getLocation();
+            console.log(loc);
+        }
+    }
+   
+    getWindowLocation();
+
 </script>
 
 <svelte:head>
