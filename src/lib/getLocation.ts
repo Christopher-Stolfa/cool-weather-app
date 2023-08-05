@@ -1,6 +1,6 @@
-export async function getLocation(): Promise<{long: string, lat: string} | string> {
+export async function getLocation(): Promise<{long: string, lat: string}> {
     if (!window) {
-        return Promise.resolve("No location available");
+        return Promise.reject("No location available");
     }
 
     const pos: any = await new Promise((resolve, reject) => {

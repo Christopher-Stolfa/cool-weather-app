@@ -21,20 +21,15 @@
         </span>
 
         {#await locationPromise}
-            Awaiting
+            Waiting for geolocation information.
         {:then locationResult}
             {locationResult.long}
             {locationResult.lat}
-        {:catch error}
-            <p style="color: red">No location information available.</p>
+        {:catch}
+            <p style="color: red">No geolocation information available.</p>
         {/await}
-
-        to your new<br />SvelteKit app
     </h1>
 
-    <h2>
-        try editing <strong>src/routes/+page.svelte</strong>
-    </h2>
 </section>
 
 <style>
