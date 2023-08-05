@@ -3,15 +3,7 @@
     import welcome_fallback from "$lib/images/svelte-welcome.png";
     import { getLocation } from "$lib/getLocation";
 
-    async function getWindowLocation() {
-        if (typeof window !== "undefined") {
-            const loc = await getLocation();
-            console.log(loc);
-        }
-    }
-   
-    getWindowLocation();
-
+    const locationPromise = getLocation();
 </script>
 
 <svelte:head>
@@ -27,6 +19,15 @@
                 <img src={welcome_fallback} alt="Welcome" />
             </picture>
         </span>
+
+        {#await locationPromise}
+            Awaiting
+        {:then locationResult}
+            {locationResult.long}
+            {locationResult.lat}
+        {:catch error}
+            <p style="color: red">No location information available.</p>
+        {/await}
 
         to your new<br />SvelteKit app
     </h1>
