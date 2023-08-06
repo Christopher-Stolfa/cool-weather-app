@@ -43,7 +43,7 @@
     {/await}
   </h1>
   {#if todaysWeatherData}
-    <p>{todaysWeatherData?.current?.condition}</p>
+    <p>Condition: {todaysWeatherData?.current?.condition?.text}</p>
   {/if}
 </section>
 
