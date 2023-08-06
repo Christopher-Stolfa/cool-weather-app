@@ -38,3 +38,7 @@ export type TCurrent = {
   gust_mph: number;
   gust_kph: number;
 };
+export interface ITodaysWeatherData {
+  location: TLocation;
+  current: TCurrent;
+}

@@ -1,11 +1,22 @@
-<script>
+<script lang="ts">
   import welcome from "$lib/images/svelte-welcome.webp";
   import welcome_fallback from "$lib/images/svelte-welcome.png";
   import { getLocation } from "$lib/getLocation";
-  import { page } from "$app/stores";
-
-  const locationPromise = getLocation();
-  console.log($page);
+  import type { ITodaysWeatherData } from "$lib/services/types";
+  let todaysWeatherData: ITodaysWeatherData;
+  const getUserLocation = async () => {
+    const userLocation = await getLocation();
+    const formData = new FormData();
+    const latLongString = `${userLocation?.lat},${userLocation?.long}`;
+    formData.append("location", latLongString);
+    const apiWeatherRes = await fetch("/api/weather", {
+      method: "POST",
+      body: formData,
+    });
+    todaysWeatherData = await apiWeatherRes?.json();
+    return userLocation;
+  };
+  //   console.log($page);
 </script>
 
 <svelte:head>
@@ -22,7 +33,7 @@
       </picture>
     </span>
 
-    {#await locationPromise}
+    {#await getUserLocation()}
       Waiting for geolocation information.
     {:then locationResult}
       {locationResult.long}
@@ -31,6 +42,9 @@
       <p style="color: red">No geolocation information available.</p>
     {/await}
   </h1>
+  {#if todaysWeatherData}
+    <p>{todaysWeatherData?.current?.condition}</p>
+  {/if}
 </section>
 
 <style>
